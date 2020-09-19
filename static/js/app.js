@@ -27,13 +27,6 @@ d3.json(url).then(function (data) {
 
         // Create an array of the initial subjects metadata and call update function to fill in information
         var subject = Object.entries(metadata[0]);
-        // updateDemographics(subject);
-        
-        // // Create a variable to store the location we will append the starting values to
-        // var initial_output = d3.selectAll(".card-body");
-
-        // // Loop through the array and append each key value pair to populate the Demographic Info section
-        // subject.forEach(info => initial_output.append("p").text(`${info[0]}: ${info[1]}`));
 
         // Create variables to hold the initial dataset to make plots
         var sampleValues = samples[0].sample_values;
@@ -104,6 +97,11 @@ d3.json(url).then(function (data) {
 
         Plotly.newPlot("bubble", bubbleData, barLayout, config);
 
+        /***************
+         * GAUGE CHART *
+         ***************/
+
+        // Create the gauge chart
         var gaugeData = [{
             value: subject[6][1],
             title: { text: `Belly Button Washing Frequency - Scrubs/Week`, font: { size: 17 } },
@@ -131,11 +129,11 @@ d3.json(url).then(function (data) {
         }];
 
         var gaugelayout = { width: 500, height: 450 };
+
         Plotly.newPlot('gauge', gaugeData, gaugelayout);
 
-        
+        // Call the updateDemographics function to fill in the initial values for the Demograpic Info section
         updateDemographics(subject);
-
     }
 
     // When there is a change to the DOM, call the optionChanged function
@@ -197,7 +195,7 @@ d3.json(url).then(function (data) {
     function updateDemographics(selectedInfo) {
 
         // Create a variable to store the location we will append the return values to
-        var output = d3.selectAll(".card-body");
+        var output = d3.select(".card-body");
 
         // Clear any text in the Demographic Info section
         output.text("");
@@ -210,7 +208,6 @@ d3.json(url).then(function (data) {
         };
 
         Plotly.restyle("gauge", updateGauge);
-
     }
 
     /****************************************************************************
